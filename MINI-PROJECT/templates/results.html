@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Results</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Eligible Colleges</h1>
+        <p>Below are the colleges based on your percentile.</p>
+
+        <div id="result"></div>
+
+        <a href="/" class="back-button">Go Back</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const percentile = urlParams.get("percentile");
+            const exam = urlParams.get("exam");
+
+            fetch(`/get_colleges?percentile=${percentile}&exam=${exam}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById("result");
+                    resultDiv.innerHTML = "";
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        resultDiv.innerHTML = "<p style='color:red; font-weight:bold;'>No colleges found for your percentile.</p>";
+                        return;
+                    }
+
+                    let output = "<ul style='list-style-type: none; padding-left: 0;'>";
+
+                    data.forEach((college, index) => {
+                        output += `
+                            <li>
+                                <h2 style="font-weight:bold; font-size:1.5em;color: white;">
+                                    ${index + 1}. ${college.name} 
+                                </h2>
+                                <ul>
+                                    <li><strong>Branches:</strong></li>
+                                    <ul style="margin-left: 20px;">
+                                        ${Array.isArray(college.branches) && college.branches.length > 0
+                                            ? college.branches.map(branch => `<li>${branch}</li>`).join("")
+                                            : "<li>Branch data unavailable</li>"
+                                        }
+                                    </ul>
+                                    <li><strong>Annual Fees:</strong> ₹${college.fees || "Not Available"}</li>
+                                    <li><strong>Website:</strong> <a href="${college.website}" target="_blank" 
+                                        style="color: yellow; font-weight: bold; text-decoration: none;">${college.website}</a></li>
+                                    </ul>
+                            </li>
+                        `;
+                    });
+
+                    output += "</ul>"; 
+                    resultDiv.innerHTML = output;
+                })
+                .catch(error => {
+                    console.error("Error fetching colleges:", error);
+                    document.getElementById("result").innerHTML = "<p style='color:red; font-weight:bold;'>An error occurred while fetching colleges.</p>";
+                });
+        });
+    </script>
+    <script>
+    window.onload = function () {
+        window.scrollTo(0, 0); // Scroll to the top of the page
+    };
+</script>
+
+
+</body>
+</html>
