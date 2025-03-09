@@ -32,13 +32,13 @@ git clone https://github.com/your-repo-url.git
 ### Install Required Dependencies:-
     pip install flask flask-sqlalchemy flask-wtf
 
-Create and activate a virtual environment to manage dependencies:-
+##Create and activate a virtual environment to manage dependencies:-
     python -m venv venv
     source venv/bin/activate   # macOS/Linux
     venv\Scripts\activate      # Windows
 
-Run the database update script:
+##Run the database update script:
     bash:- python update_db.py
 
-Run the Project:
+##Run the Project:
     bash:- python app.py
