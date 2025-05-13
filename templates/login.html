@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background: url("{{ url_for('static', filename='backg.jpg') }}"); }
+        .container { background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); width: 350px; }
+        h2 { color: #fff; margin-bottom: 20px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; background: rgba(255, 255, 255, 0.3); color: #fff; }
+        button { width: 100%; padding: 10px; background: #ff4b5c; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #ff6b81; }
+        p { margin-top: 10px; color: #fff; }
+        a { color: #ff6b81; text-decoration: none; font-weight: bold; }
+        input::placeholder {color: rgba(255, 255, 255, 0.7);}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form method="POST" autocomplete="off">
+            <input type="email" name="email" autocomplete="off"  placeholder="Email" required>
+            <input type="password" name="password" autocomplete="off" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    </div>
+    <script>
+        window.onload = function() {
+            document.getElementsByName("email")[0].value = "";
+            document.getElementsByName("password")[0].value = "";
+        };
+    </script>
+    <script>
+    // Function to show alert popup
+    function showAlert(message) {
+        if (message) {
+            alert(message);
+        }
+    }
+
+    // Check if there is an error message in the URL
+    window.onload = function() {
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get("error");
+        showAlert(error);
+    };
+</script>
+
+    
+</body>
+</html>
